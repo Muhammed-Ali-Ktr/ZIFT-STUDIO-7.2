@@ -637,68 +637,177 @@
       outline: none;
     }
 
-    /* Contenteditable Editör Alanı */
+    /* Contenteditable Editör Alanı — blog-detay.html (.detail-body) İLE BİREBİR UYUMLU */
     .editable-canvas {
-      min-height: 460px;
+      min-height: 520px;
       max-height: 850px;
       overflow-y: auto;
-      padding: 1.75rem 2rem;
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--cms-text);
+      padding: 3rem 2.5rem;
+      font-size: 1.08rem;
+      line-height: 1.85;
+      color: var(--text, var(--cms-text));
+      background: var(--card-bg, var(--cms-card-bg));
+      border: 1px solid var(--border, var(--cms-border));
+      border-radius: var(--radius-xl, 20px);
+      box-shadow: var(--shadow-sm, 0 4px 15px rgba(0, 0, 0, 0.04));
       outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+      position: relative;
     }
 
     .editable-canvas:focus {
-      background: rgba(37, 99, 235, 0.005);
+      border-color: var(--cms-accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
 
-    .editable-canvas h1 { font-size: 1.85rem; font-weight: 800; margin: 1.5rem 0 0.75rem; letter-spacing: -0.02em; }
-    .editable-canvas h2 { font-size: 1.45rem; font-weight: 800; margin: 1.5rem 0 0.75rem; }
-    .editable-canvas h3 { font-size: 1.2rem; font-weight: 700; margin: 1.25rem 0 0.5rem; }
-    .editable-canvas p { margin-bottom: 1.15rem; color: var(--cms-text); }
-    .editable-canvas blockquote {
-      border-left: 3px solid var(--cms-accent);
-      padding: 0.85rem 1.25rem;
-      background: var(--cms-bg);
-      border-radius: 0 8px 8px 0;
-      font-style: italic;
-      color: var(--cms-text-muted);
-      margin: 1.5rem 0;
+    /* Sürükle Bırak Aktiflik Efekti */
+    .editable-canvas.canvas-dragover {
+      border: 2px dashed var(--cms-accent, #2563eb) !important;
+      background: rgba(37, 99, 235, 0.035) !important;
+      box-shadow: 0 0 25px rgba(37, 99, 235, 0.18) !important;
     }
+
+    .editable-canvas h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 2rem 0 1rem;
+      color: var(--text, var(--cms-text));
+      line-height: 1.3;
+    }
+
+    .editable-canvas h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 2.5rem 0 1rem;
+      color: var(--text, var(--cms-text));
+      border-bottom: 1px solid var(--border-light, var(--cms-border));
+      padding-bottom: 0.5rem;
+      line-height: 1.35;
+    }
+
+    .editable-canvas h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 2rem 0 0.75rem;
+      color: var(--text, var(--cms-text));
+      line-height: 1.4;
+    }
+
+    .editable-canvas h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.5rem;
+      color: var(--text, var(--cms-text));
+    }
+
+    .editable-canvas p {
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary, var(--cms-text-muted));
+      line-height: 1.85;
+    }
+
+    .editable-canvas ul, .editable-canvas ol {
+      margin: 1rem 0 1.5rem 1.75rem;
+      color: var(--text-secondary, var(--cms-text-muted));
+    }
+
+    .editable-canvas li {
+      margin-bottom: 0.5rem;
+      line-height: 1.75;
+    }
+
+    .editable-canvas blockquote {
+      border-left: 4px solid var(--accent, var(--cms-accent));
+      background: var(--bg-soft, rgba(37, 99, 235, 0.04));
+      padding: 1.25rem 1.75rem;
+      border-radius: 0 12px 12px 0;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--text, var(--cms-text));
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
     .editable-canvas pre {
       background: #0f172a;
-      color: #38bdf8;
-      padding: 1rem;
-      border-radius: 8px;
-      font-family: var(--font-mono, monospace);
-      font-size: 0.88rem;
-      margin: 1rem 0;
+      color: #f8fafc;
+      padding: 1.25rem;
+      border-radius: 12px;
       overflow-x: auto;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.9rem;
+      margin: 1.5rem 0;
+      border: 1px solid #1e293b;
+      line-height: 1.6;
     }
+
+    .editable-canvas code {
+      font-family: var(--font-mono, monospace);
+      background: var(--bg-subtle, rgba(0, 0, 0, 0.05));
+      color: var(--accent, var(--cms-accent));
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+
+    .editable-canvas pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    .editable-canvas a {
+      color: var(--accent, var(--cms-accent));
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .editable-canvas hr {
+      border: none;
+      border-top: 1px solid var(--border-light, var(--cms-border));
+      margin: 2.5rem 0;
+    }
+
+    /* Görseller — blog-detay.html ile birebir + sürükle-bırak & etkileşim */
     .editable-canvas img {
       max-width: 100%;
       height: auto;
-      border-radius: 12px;
-      border: 1px solid var(--cms-border);
-      margin: 1rem 0;
+      border-radius: 14px;
+      border: 1px solid var(--border, var(--cms-border));
+      margin: 2rem auto;
       display: block;
       cursor: pointer;
-      transition: outline 0.15s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, outline 0.15s ease;
     }
+
+    .editable-canvas img:hover {
+      transform: scale(1.008);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
     .editable-canvas img.selected-img {
-      outline: 3px solid var(--cms-accent);
+      outline: 3px solid var(--cms-accent, #2563eb);
+      outline-offset: 4px;
+      box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.2);
     }
+
     .editable-canvas table {
       width: 100%;
       border-collapse: collapse;
-      margin: 1rem 0;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      overflow: hidden;
     }
+
     .editable-canvas table, .editable-canvas th, .editable-canvas td {
-      border: 1px solid var(--cms-border);
-      padding: 8px 12px;
+      border: 1px solid var(--border, var(--cms-border));
+      padding: 10px 14px;
     }
-    .editable-canvas th { background: var(--cms-bg); font-weight: 700; }
+
+    .editable-canvas th { background: var(--cms-bg); font-weight: 700; color: var(--cms-text); }
 
     /* Editör Durum Çubuğu */
     .editor-status-bar {
@@ -1414,10 +1523,15 @@
            ====================================================================== -->
       <div class="col-left-main">
         <div class="cms-card">
-          <div class="cms-card-header">
-            <h2 class="cms-card-title" id="formCardTitle">
-              ✨ Yeni Blog Yazısı Oluştur
-            </h2>
+          <div class="cms-card-header" style="flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <h2 class="cms-card-title" id="formCardTitle">
+                ✨ Yeni Blog Yazısı Oluştur
+              </h2>
+              <button type="button" class="cms-btn cms-btn-secondary" id="btnCancelEdit" style="display: none; font-size: 0.75rem; padding: 4px 10px;" onclick="resetEditorToNewPost()" title="Mevcut düzenlemeyi iptal et ve yeni yazı oluştur">
+                ➕ Yeni Yazı Moduna Geç
+              </button>
+            </div>
             <span id="saveStatusIndicator" style="font-size: 0.75rem; color: var(--cms-success); font-weight: 600;">
               ✓ Hazır
             </span>
@@ -2186,7 +2300,7 @@
       scheduleAutoSave();
     }
 
-    // 5. GÖRSEL YÖNETİMİ (CİHAZDAN VEYA URL İLE)
+    // 5. GÖRSEL YÖNETİMİ & EDİTÖR İÇİ SÜRÜKLE-BIRAK (DRAG & DROP)
     let currentActiveImageUrl = '';
 
     function switchImageTab(tab) {
@@ -2242,9 +2356,11 @@
       const box = document.getElementById('uploadedPreviewBox');
       document.getElementById('activePreviewName').textContent = name;
       document.getElementById('activePreviewSize').textContent = size;
-      document.getElementById('activePreviewThumb').src = src;
+      const thumb = document.getElementById('activePreviewThumb');
+      thumb.src = src;
+      thumb.setAttribute('draggable', 'true');
       box.style.display = 'flex';
-      showToast('Görsel hazırlandı.');
+      showToast('Görsel hazırlandı. Yazı içine sürükleyebilirsiniz.');
     }
 
     function removeActiveImage() {
@@ -2262,15 +2378,152 @@
       showToast('⭐ Kapak görseli olarak ayarlandı!');
     }
 
+    // Görseli imlecin veya seçimin bulunduğu yere ekler
     function insertActiveImageIntoEditor() {
       if (!currentActiveImageUrl) {
         alert('Lütfen önce bir görsel yükleyin veya URL girin.');
         return;
       }
-      const imgHtml = `<img src="${currentActiveImageUrl}" alt="Blog görseli" style="width:100%; border-radius:12px; margin:1rem 0;" /><p></p>`;
-      document.execCommand('insertHTML', false, imgHtml);
-      showToast('➕ Görsel içeriğe eklendi!');
+      let selRange = null;
+      const sel = window.getSelection();
+      const editor = document.getElementById('editorCanvas');
+      if (sel && sel.rangeCount > 0 && editor.contains(sel.getRangeAt(0).commonAncestorContainer)) {
+        selRange = sel.getRangeAt(0);
+      }
+      insertImageAtLocation(currentActiveImageUrl, 'Blog görseli', selRange);
     }
+
+    // EDİTÖR İÇİNDE TAM BIRAKILAN KONUMA GÖRSEL EKLEME FONKSİYONU
+    function insertImageAtLocation(src, altText, targetRange) {
+      const editor = document.getElementById('editorCanvas');
+      editor.focus();
+
+      const cleanAlt = (altText || 'Blog görseli').replace(/\.[^/.]+$/, '');
+      
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = cleanAlt;
+      img.title = cleanAlt;
+      img.style.maxWidth = '100%';
+      img.style.borderRadius = '14px';
+      img.style.margin = '2rem auto';
+      img.style.display = 'block';
+
+      // Görselin hemen sonrasına kullanıcının yazmaya devam edebileceği paragraf
+      const pAfter = document.createElement('p');
+      pAfter.innerHTML = '<br>';
+
+      if (targetRange && editor.contains(targetRange.commonAncestorContainer)) {
+        targetRange.deleteContents();
+        targetRange.insertNode(pAfter);
+        targetRange.insertNode(img);
+
+        // İmleci eklenen görselin altındaki paragrafa konumlandır
+        try {
+          const newRange = document.createRange();
+          newRange.setStart(pAfter, 0);
+          newRange.collapse(true);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(newRange);
+        } catch (e) {}
+      } else {
+        editor.appendChild(img);
+        editor.appendChild(pAfter);
+      }
+
+      // Seçili görsel durumuna getir
+      document.querySelectorAll('.editable-canvas img').forEach(i => i.classList.remove('selected-img'));
+      img.classList.add('selected-img');
+      currentlySelectedImg = img;
+      currentActiveImageUrl = src;
+      displayActivePreview(cleanAlt, 'Eklenen Görsel', src);
+
+      // Görsele tıklandığında ayarları aç
+      img.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      updateMetrics();
+      updateSeoPreview();
+      scheduleAutoSave();
+      showToast('🖼️ Görsel tam bırakılan yere eklendi!');
+    }
+
+    // EDİTÖR ÜZERİNE DOĞRUDAN SÜRÜKLE - BIRAK EVENT LISTENER'LARI
+    (function setupEditorDragAndDrop() {
+      const editor = document.getElementById('editorCanvas');
+      if (!editor) return;
+
+      editor.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.classList.add('canvas-dragover');
+      });
+
+      editor.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = 'copy';
+        editor.classList.add('canvas-dragover');
+
+        // İmleci farenin altına taşı
+        if (document.caretRangeFromPoint) {
+          const range = document.caretRangeFromPoint(e.clientX, e.clientY);
+          if (range && editor.contains(range.commonAncestorContainer)) {
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        }
+      });
+
+      editor.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.relatedTarget && !editor.contains(e.relatedTarget)) {
+          editor.classList.remove('canvas-dragover');
+        }
+      });
+
+      editor.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.classList.remove('canvas-dragover');
+
+        // Bırakılan tam koordinattaki DOM Range'ini belirle
+        let dropRange = null;
+        if (document.caretRangeFromPoint) {
+          dropRange = document.caretRangeFromPoint(e.clientX, e.clientY);
+        } else if (document.caretPositionFromPoint) {
+          const pos = document.caretPositionFromPoint(e.clientX, e.clientY);
+          if (pos) {
+            dropRange = document.createRange();
+            dropRange.setStart(pos.offsetNode, pos.offset);
+            dropRange.collapse(true);
+          }
+        } else if (window.getSelection && window.getSelection().rangeCount > 0) {
+          dropRange = window.getSelection().getRangeAt(0);
+        }
+
+        // 1. Bilgisayardan sürüklenen dosya kontrolü
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          const file = Array.from(e.dataTransfer.files).find(f => f.type.startsWith('image/'));
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+              insertImageAtLocation(evt.target.result, file.name, dropRange);
+            };
+            reader.readAsDataURL(file);
+            return;
+          }
+        }
+
+        // 2. URL veya Önizleme kutusundan sürüklenen görsel kontrolü
+        const droppedText = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('text/uri-list');
+        if (droppedText && (droppedText.startsWith('data:image') || droppedText.startsWith('http') || droppedText.startsWith('../') || droppedText.startsWith('/'))) {
+          insertImageAtLocation(droppedText, 'Sürüklenen Görsel', dropRange);
+        }
+      });
+    })();
 
     // İçerik içi görsellere tıklayınca ayar modalı açma
     let currentlySelectedImg = null;
@@ -2424,6 +2677,34 @@
       showToast('💾 Taslak yerel olarak kaydedildi!');
     }
 
+    // Editör modunu sıfırlar ve yeni yazı oluşturma durumuna döner
+    function resetEditorToNewPost() {
+      editingPostId = null;
+      document.getElementById('formCardTitle').textContent = '✨ Yeni Blog Yazısı Oluştur';
+      document.getElementById('btnCancelEdit').style.display = 'none';
+      const publishBtn = document.getElementById('publishBtn');
+      publishBtn.disabled = false;
+      publishBtn.innerHTML = '🚀 Yazıyı Yayınla';
+
+      document.getElementById('postTitle').value = '';
+      document.getElementById('postSlug').value = '';
+      document.getElementById('seoMetaDesc').value = '';
+      document.getElementById('editorCanvas').innerHTML = '<h2>Yeni Blog Yazısı Başlığı</h2><p>İçeriğinizi buraya yazmaya başlayın...</p>';
+      document.getElementById('currentCoverImageUrl').value = '';
+      document.getElementById('imageUrlInput').value = '';
+      removeActiveImage();
+
+      // Yayın tarihini şimdiki zamana resetle
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      document.getElementById('postPublishDate').value = now.toISOString().slice(0, 16);
+
+      updatePermalinkDisplay('');
+      updateMetrics();
+      updateSeoPreview();
+      showToast('✨ Yeni yazı moduna geçildi.');
+    }
+
     // 10. SUPABASE'E YAYINLAMA / GÜNCELLEME (PUBLISH POST)
     async function handlePublishPost() {
       const publishBtn = document.getElementById('publishBtn');
@@ -2433,6 +2714,7 @@
       const summary = document.getElementById('seoMetaDesc').value.trim();
       const content = document.getElementById('editorCanvas').innerHTML.trim();
       const cover = document.getElementById('currentCoverImageUrl').value || currentActiveImageUrl || '../assets/image/randevu/randevu-1.png';
+      const publishDate = document.getElementById('postPublishDate').value;
       
       const words = (document.getElementById('editorCanvas').innerText || '').trim().split(/\s+/).length;
       const read_time = `${Math.max(1, Math.ceil(words / 200))} dk okuma`;
@@ -2444,10 +2726,19 @@
 
       try {
         publishBtn.disabled = true;
-        publishBtn.innerHTML = '⏳ Supabase\'e Aktarılıyor...';
+        publishBtn.innerHTML = editingPostId ? '⏳ Güncelleniyor...' : '⏳ Supabase\'e Aktarılıyor...';
 
         if (!window.BlogService) {
           throw new Error('BlogService bulunamadı. JS/supabase.js dosyasını kontrol edin.');
+        }
+
+        // Slug benzersizlik kontrolü
+        const isSlugOk = await window.BlogService.isSlugAvailable(slug, editingPostId);
+        if (!isSlugOk) {
+          alert(`"${slug}" URL (slug) değeri zaten başka bir blog yazısı tarafından kullanılıyor. Lütfen benzersiz bir slug belirleyin.`);
+          publishBtn.disabled = false;
+          publishBtn.innerHTML = editingPostId ? '💾 Değişiklikleri Kaydet' : '🚀 Yazıyı Yayınla';
+          return;
         }
 
         const postPayload = {
@@ -2460,33 +2751,39 @@
           read_time
         };
 
+        if (publishDate) {
+          postPayload.created_at = new Date(publishDate).toISOString();
+        }
+
         if (editingPostId) {
-          // Güncelleme Modu
+          // Güncelleme Modu (Mevcut views sayacı korunur)
           await window.BlogService.updatePost(editingPostId, postPayload);
           showToast('✅ Blog yazısı başarıyla güncellendi!');
         } else {
-          // Yeni Oluşturma Modu
+          // Yeni Oluşturma Modu (view_count daima 0 olarak başlar)
+          postPayload.views = 0;
           await window.BlogService.createPost(postPayload);
           showToast('🚀 Blog yazısı başarıyla yayınlandı!');
+          resetEditorToNewPost();
         }
 
-        // Listeyi ve istatistikleri yenile
-        loadExistingPostsTable();
-        loadBlogAnalytics(true);
+        // Listeyi ve istatistikleri canlı yenile
+        await loadExistingPostsTable();
+        await loadBlogAnalytics(true);
 
-        // 1 saniye sonra detay sayfasına bakma opsiyonu sun
+        // Canlı detay sayfasına bakma opsiyonu sun
         setTimeout(() => {
-          if (confirm('Yazı yayınlandı! Şimdi canlı detay sayfasında görüntülemek ister misiniz?')) {
+          if (confirm('İşlem tamamlandı! Canlı detay sayfasında görüntülemek ister misiniz?')) {
             window.open(`blog-detay.html?slug=${encodeURIComponent(slug)}`, '_blank');
           }
-        }, 800);
+        }, 600);
 
       } catch (err) {
         console.error('Yayınlama hatası:', err);
-        alert('Yayınlanamadı: ' + (err.message || 'Supabase bağlantı hatası.'));
+        alert('İşlem başarısız: ' + (err.message || 'Supabase veritabanı bağlantı hatası.'));
       } finally {
         publishBtn.disabled = false;
-        publishBtn.innerHTML = '🚀 Yazıyı Yayınla';
+        publishBtn.innerHTML = editingPostId ? '💾 Değişiklikleri Kaydet' : '🚀 Yazıyı Yayınla';
       }
     }
 
@@ -2507,7 +2804,7 @@
 
         container.innerHTML = posts.map(post => {
           const date = new Date(post.created_at).toLocaleDateString('tr-TR');
-          const views = post.views || 0;
+          const views = typeof post.views === 'number' ? post.views : 0;
           return `
             <div class="post-table-row">
               <div style="flex: 1; min-width: 0; padding-right: 1rem;">
@@ -2554,17 +2851,23 @@
         const stats = await window.BlogService.getBlogStats();
         currentBlogStats = stats;
 
-        // KPI kartlarını doldur
+        // KPI kartlarını doldur (Doğrudan DB verileri)
         const totalViewsEl = document.getElementById('kpiTotalViews');
-        if (totalViewsEl) totalViewsEl.textContent = stats.totalViews.toLocaleString('tr-TR');
+        if (totalViewsEl) totalViewsEl.textContent = (stats.totalViews || 0).toLocaleString('tr-TR');
 
         const totalPostsEl = document.getElementById('kpiTotalPosts');
         if (totalPostsEl) totalPostsEl.textContent = `${stats.totalPosts} Yazı`;
 
         const topPostViewsEl = document.getElementById('kpiTopPostViews');
         const topPostTitleEl = document.getElementById('kpiTopPostTitle');
-        if (stats.mostViewedPost) {
+        if (stats.mostViewedPost && (stats.mostViewedPost.views || 0) > 0) {
           if (topPostViewsEl) topPostViewsEl.textContent = `👁️ ${(stats.mostViewedPost.views || 0).toLocaleString('tr-TR')}`;
+          if (topPostTitleEl) {
+            topPostTitleEl.textContent = stats.mostViewedPost.title;
+            topPostTitleEl.title = stats.mostViewedPost.title;
+          }
+        } else if (stats.mostViewedPost) {
+          if (topPostViewsEl) topPostViewsEl.textContent = `👁️ 0`;
           if (topPostTitleEl) {
             topPostTitleEl.textContent = stats.mostViewedPost.title;
             topPostTitleEl.title = stats.mostViewedPost.title;
@@ -2627,11 +2930,11 @@
         return;
       }
 
-      const maxViews = Math.max(...posts.map(p => p.views || 0), 1);
+      const maxViews = Math.max(...posts.map(p => p.views || 0), 0);
 
       container.innerHTML = posts.map((post, idx) => {
-        const views = post.views || 0;
-        const percentage = Math.max(8, Math.round((views / maxViews) * 100));
+        const views = typeof post.views === 'number' ? post.views : 0;
+        const percentage = maxViews > 0 ? Math.max(8, Math.round((views / maxViews) * 100)) : 0;
         const date = new Date(post.created_at).toLocaleDateString('tr-TR');
         
         let rankClass = '';
@@ -2644,7 +2947,7 @@
 
         return `
           <div class="stats-table-row">
-            <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
+            <div style="display: flex; align-items: center; gap: 12px; flex-1; min-width: 0;">
               <span class="stats-rank-badge ${rankClass}">${rankDisplay}</span>
               <div style="flex: 1; min-width: 0;">
                 <div style="font-weight: 700; font-size: 0.95rem; color: var(--cms-text); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(post.title)}">
@@ -2699,12 +3002,18 @@
     async function loadPostIntoEditor(slug) {
       try {
         const post = await window.BlogService.getPostBySlug(slug);
-        if (!post) return;
+        if (!post) {
+          alert('Yazı veritabanından çekilemedi.');
+          return;
+        }
 
         editingPostId = post.id;
         document.getElementById('formCardTitle').textContent = `✏️ Yazıyı Düzenle: ${post.title}`;
-        document.getElementById('postTitle').value = post.title;
-        document.getElementById('postSlug').value = post.slug;
+        document.getElementById('btnCancelEdit').style.display = 'inline-flex';
+        document.getElementById('publishBtn').innerHTML = '💾 Değişiklikleri Kaydet';
+
+        document.getElementById('postTitle').value = post.title || '';
+        document.getElementById('postSlug').value = post.slug || '';
         updatePermalinkDisplay(post.slug);
         
         document.getElementById('postCategory').value = post.category || 'general';
@@ -2713,26 +3022,44 @@
         
         if (post.image_url) {
           document.getElementById('currentCoverImageUrl').value = post.image_url;
-          displayActivePreview('Kapak Görseli', 'Supabase', post.image_url);
+          currentActiveImageUrl = post.image_url;
+          displayActivePreview('Kapak Görseli', 'Kayıtlı', post.image_url);
+        } else {
+          removeActiveImage();
+        }
+
+        // Yayın tarihini yükle
+        if (post.created_at) {
+          const dt = new Date(post.created_at);
+          dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
+          document.getElementById('postPublishDate').value = dt.toISOString().slice(0, 16);
         }
 
         updateMetrics();
         updateSeoPreview();
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        showToast('Yazı editöre yüklendi!');
+        showToast('✓ Yazı başarıyla editöre yüklendi!');
       } catch (err) {
-        alert('Yazı yüklenirken hata oluştu.');
+        console.error('Yazı yükleme hatası:', err);
+        alert('Yazı yüklenirken hata oluştu: ' + err.message);
       }
     }
 
     async function handleDeletePost(id, title) {
-      if (!confirm(`"${title}" başlıklı yazıyı silmek istediğinizden emin misiniz?`)) return;
+      if (!confirm(`"${title}" başlıklı yazıyı veritabanından kalıcı olarak silmek istediğinizden emin misiniz?`)) return;
       try {
         await window.BlogService.deletePost(id);
-        showToast('Yazı başarıyla silindi.');
-        loadExistingPostsTable();
-        loadBlogAnalytics(true);
+        showToast('✓ Yazı başarıyla silindi.');
+        
+        // Eğer silinen yazı editörde açıksa editörü sıfırla
+        if (editingPostId === id) {
+          resetEditorToNewPost();
+        }
+
+        await loadExistingPostsTable();
+        await loadBlogAnalytics(true);
       } catch (err) {
+        console.error('Silme hatası:', err);
         alert('Hata: ' + err.message);
       }
     }

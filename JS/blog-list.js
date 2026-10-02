@@ -73,13 +73,34 @@ function syncArticleListWithSupabase(container, posts) {
   const isInPagesDir = window.location.pathname.includes('/pages/');
   const detailBaseUrl = isInPagesDir ? 'blog-detay.html' : 'pages/blog-detay.html';
 
-  // 1. Mevcut DOM kartlarını slug'a göre haritala
+  // 1. Mevcut DOM kartlarını slug'a göre haritala ve gerçek görüntülenme sayılarını eşle
   const existingCards = container.querySelectorAll('.article-card');
   const existingSlugs = new Set();
+  const postMap = new Map();
+  posts.forEach(p => { if (p && p.slug) postMap.set(p.slug, p); });
 
   existingCards.forEach(card => {
     const slug = card.getAttribute('data-slug');
-    if (slug) existingSlugs.add(slug);
+    if (slug) {
+      existingSlugs.add(slug);
+      const post = postMap.get(slug);
+      if (post) {
+        const metaGroup = card.querySelector('.article-meta-group');
+        if (metaGroup) {
+          let viewsEl = metaGroup.querySelector('.article-views-count');
+          if (!viewsEl) {
+            const sep = document.createElement('span');
+            sep.textContent = '•';
+            viewsEl = document.createElement('span');
+            viewsEl.className = 'article-views-count';
+            metaGroup.appendChild(sep);
+            metaGroup.appendChild(viewsEl);
+          }
+          const v = typeof post.views === 'number' ? post.views : 0;
+          viewsEl.textContent = `👁️ ${v.toLocaleString('tr-TR')}`;
+        }
+      }
+    }
     card.classList.add('visible');
     card.classList.add('active');
   });
@@ -110,6 +131,9 @@ function syncArticleListWithSupabase(container, posts) {
       } else {
         parsedContent = post.content || '';
       }
+      if (window.sanitizeHtml && typeof window.sanitizeHtml === 'function') {
+        parsedContent = window.sanitizeHtml(parsedContent);
+      }
 
       const newArticle = document.createElement('article');
       newArticle.className = 'article-card reveal visible active';
@@ -126,6 +150,8 @@ function syncArticleListWithSupabase(container, posts) {
             <span class="article-reading-time">⏱️ ${escapeHtml(readTime)}</span>
             <span>•</span>
             <time datetime="${escapeHtml(post.created_at)}">${formattedDate}</time>
+            <span>•</span>
+            <span class="article-views-count">👁️ ${(post.views || 0).toLocaleString('tr-TR')}</span>
           </div>
         </div>
 

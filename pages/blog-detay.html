@@ -411,6 +411,10 @@
     <span>✓</span> Bağlantı panoya kopyalandı!
   </div>
 
+  <!-- Supabase JS Client v2 CDN & Markdown Parser -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
   <!-- Temel Scriptler ve Supabase İstemcisi -->
   <script src="../JS/script.js"></script>
   <script src="../JS/supabase.js"></script>
@@ -460,9 +464,19 @@
         // 5. Paylaşım Butonlarını Aktifleştir
         setupShareActions(post);
 
-        // 6. Görüntülenme Sayısını Artır (Tekil Oturum Bazlı)
+        // 6. Görüntülenme Sayısını Gerçek & Güvenli Takip Et (Deduplicated)
         if (window.BlogService && typeof window.BlogService.incrementViewCount === 'function') {
-          window.BlogService.incrementViewCount(slug);
+          window.BlogService.incrementViewCount(slug).then(result => {
+            if (result && result.incremented) {
+              const viewsEl = document.getElementById('postViews');
+              if (viewsEl) {
+                const currentViews = typeof post.views === 'number' ? post.views : 0;
+                viewsEl.textContent = `👁️ ${(currentViews + 1).toLocaleString('tr-TR')} görüntülenme`;
+              }
+            }
+          }).catch(err => {
+            console.warn('View count artırılamadı:', err);
+          });
         }
 
         // Ekranı Göster
@@ -496,12 +510,12 @@
       catBadge.className = `article-category-badge ${catMeta.className}`;
       catBadge.textContent = `${catMeta.icon} ${catMeta.label}`;
 
-      // Okuma Süresi, Tarih ve Görüntülenme Sayısı
+      // Okuma Süresi, Tarih ve Görüntülenme Sayısı (Gerçek DB Değeri)
       document.getElementById('postReadTime').textContent = `⏱️ ${post.read_time || '3 dk okuma'}`;
       
       const viewsEl = document.getElementById('postViews');
       if (viewsEl) {
-        const viewCount = (post.views || 0) + 1; // bu oturumu da yansıt
+        const viewCount = typeof post.views === 'number' && !isNaN(post.views) ? post.views : 0;
         viewsEl.textContent = `👁️ ${viewCount.toLocaleString('tr-TR')} görüntülenme`;
       }
       
@@ -522,13 +536,19 @@
         coverWrapper.style.display = 'none';
       }
 
-      // İçerik (Markdown veya HTML desteği)
+      // İçerik (Markdown veya HTML desteği + XSS sanitization)
       const postBody = document.getElementById('postBody');
+      let rawContent = post.content || '';
+      let parsedHtml = '';
       if (window.marked && typeof window.marked.parse === 'function') {
-        postBody.innerHTML = marked.parse(post.content || '');
+        parsedHtml = marked.parse(rawContent);
       } else {
-        postBody.innerHTML = post.content || '';
+        parsedHtml = rawContent;
       }
+      if (window.sanitizeHtml && typeof window.sanitizeHtml === 'function') {
+        parsedHtml = window.sanitizeHtml(parsedHtml);
+      }
+      postBody.innerHTML = parsedHtml;
 
       // Makale içi ve kapak görsellerini tıklanabilir Lightbox galerisine bağla
       setupDetailArticleLightbox();

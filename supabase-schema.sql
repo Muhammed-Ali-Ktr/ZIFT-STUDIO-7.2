@@ -29,19 +29,60 @@ CREATE INDEX IF NOT EXISTS blogs_category_idx ON public.blogs (category);
 CREATE INDEX IF NOT EXISTS blogs_created_at_idx ON public.blogs (created_at DESC);
 CREATE INDEX IF NOT EXISTS blogs_views_idx ON public.blogs (views DESC);
 
+-- ==============================================================================
+-- 2.1. 'blog_views' Tablosu (Opsiyonel & Gelişmiş Tekil Ziyaretçi / Log Takibi)
+-- ==============================================================================
+CREATE TABLE IF NOT EXISTS public.blog_views (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    blog_id UUID REFERENCES public.blogs(id) ON DELETE CASCADE,
+    post_slug TEXT NOT NULL,
+    session_id TEXT,
+    user_agent TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS blog_views_post_slug_idx ON public.blog_views (post_slug);
+CREATE INDEX IF NOT EXISTS blog_views_created_at_idx ON public.blog_views (created_at DESC);
+
+ALTER TABLE public.blog_views ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public Read Blog Views" ON public.blog_views;
+CREATE POLICY "Public Read Blog Views" 
+ON public.blog_views 
+FOR SELECT 
+TO public 
+USING (true);
+
+DROP POLICY IF EXISTS "Public Insert Blog Views" ON public.blog_views;
+CREATE POLICY "Public Insert Blog Views" 
+ON public.blog_views 
+FOR INSERT 
+TO public 
+WITH CHECK (true);
+
 -- 3. Görüntülenme Sayacını Atomik Olarak Artıran Fonksiyon (RPC)
-CREATE OR REPLACE FUNCTION increment_blog_views(post_slug TEXT)
+CREATE OR REPLACE FUNCTION increment_blog_views(post_slug TEXT, visitor_session TEXT DEFAULT NULL)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 BEGIN
+  -- 1. blogs tablosundaki sayacı atomik olarak artır
   UPDATE public.blogs
   SET views = COALESCE(views, 0) + 1
   WHERE slug = post_slug;
+
+  -- 2. Eğer blog_views tablosu varsa detay logunu ekle
+  BEGIN
+    INSERT INTO public.blog_views (post_slug, session_id)
+    VALUES (post_slug, visitor_session);
+  EXCEPTION WHEN OTHERS THEN
+    NULL;
+  END;
 END;
 $$;
 
+GRANT EXECUTE ON FUNCTION increment_blog_views(TEXT, TEXT) TO anon, authenticated, public;
 GRANT EXECUTE ON FUNCTION increment_blog_views(TEXT) TO anon, authenticated, public;
 
 -- 4. Row Level Security (RLS) Güvenlik Katmanını Aç
